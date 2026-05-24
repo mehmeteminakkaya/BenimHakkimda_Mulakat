@@ -1382,7 +1382,7 @@ const routes = {
 // HTTP SERVER
 // ═══════════════════════════════════════════════════════════════════════════════
 
-const server = createServer(async (req, res) => {
+async function handleRequest(req, res) {
   // CORS
   if (applyCors(req, res)) return;
 
@@ -1425,15 +1425,20 @@ const server = createServer(async (req, res) => {
 
   // Static files
   serveStatic(req, res);
-});
+}
 
-server.listen(PORT, () => {
-  console.log(`\n${'═'.repeat(60)}`);
-  console.log(`  benimhakkimda AI Interview System`);
-  console.log(`  Server running at http://localhost:${PORT}`);
-  console.log(`  Model: ${NVIDIA_MODEL}`);
-  console.log(`  Endpoints:`);
-  Object.keys(routes).forEach(r => console.log(`    ${r}`));
-  console.log(`    GET  /api/health`);
-  console.log(`${'═'.repeat(60)}\n`);
-});
+if (!process.env.VERCEL) {
+  const server = createServer(handleRequest);
+  server.listen(PORT, () => {
+    console.log(`\n${'═'.repeat(60)}`);
+    console.log(`  benimhakkimda AI Interview System`);
+    console.log(`  Server running at http://localhost:${PORT}`);
+    console.log(`  Model: ${NVIDIA_MODEL}`);
+    console.log(`  Endpoints:`);
+    Object.keys(routes).forEach(r => console.log(`    ${r}`));
+    console.log(`    GET  /api/health`);
+    console.log(`${'═'.repeat(60)}\n`);
+  });
+}
+
+export default handleRequest;
