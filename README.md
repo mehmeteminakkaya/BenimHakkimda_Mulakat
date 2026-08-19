@@ -2,7 +2,7 @@
 
 # 🎙️ BenimHakkımda — İnteraktif & Sesli AI Mülakat Koçu
 
-[![Live Demo](https://img.shields.io/badge/Canl%C4%B1%20Demo-benimhakkimda--aim--lakat.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://benimhakkimda-aim-lakat.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/Canl%C4%B1%20Demo-benimhakkimda--mulakat.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://benimhakkimda-mulakat.vercel.app/)
 [![Node.js](https://img.shields.io/badge/Backend-Node.js%20%7C%20S%C4%B1f%C4%B1r%20Ba%C4%9F%C4%B1ml%C4%B1l%C4%B1k-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
 [![AI Engine](https://img.shields.io/badge/AI-NVIDIA%20NIM%20%7C%20LLaMA%203.1%208B-76B900?style=for-the-badge&logo=nvidia&logoColor=white)](https://build.nvidia.com)
 [![Audio](https://img.shields.io/badge/Audio-Web%20Speech%20%7C%20Web%20Audio%20API-FF6F00?style=for-the-badge)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
@@ -13,7 +13,7 @@
   Yapay zekâ sorar, aday sesli yanıtlar; sistem STAR metodolojisi, özgüven, netlik ve teknik doğruluk analizi yapar.
 </p>
 
-[Canlı Demoyu Aç ↗](https://benimhakkimda-aim-lakat.vercel.app/) • [Nasıl Çalışır?](#-nas%C4%B1l-%C3%A7al%C4%B1%C5%9F%C4%B1r) • [Kurulum](#-yerel-kurulum) • [Geliştirici](#-geli%C5%9Ftirici)
+[Canlı Demoyu Aç ↗](https://benimhakkimda-mulakat.vercel.app/) • [Nasıl Çalışır?](#-nas%C4%B1l-%C3%A7al%C4%B1%C5%9F%C4%B1r) • [Kurulum](#-yerel-kurulum) • [Geliştirici](#-geli%C5%9Ftirici)
 
 ---
 
@@ -65,8 +65,8 @@ graph LR
 ### Adımlar:
 ```bash
 # 1. Projeyi klonlayın
-git clone https://github.com/mehmeteminakkaya/Benimhakkimda.aim-lakat.git
-cd Benimhakkimda.aim-lakat
+git clone https://github.com/mehmeteminakkaya/BenimHakkimda_Mulakat.git
+cd BenimHakkimda_Mulakat
 
 # 2. Ortam değişkenlerini ayarlayın
 cp .env.example .env
