@@ -5,12 +5,17 @@
 
 import { createServer } from 'node:http';
 import { readFileSync, existsSync, statSync, createReadStream } from 'node:fs';
-import { join, extname, resolve, normalize } from 'node:path';
+import { join, extname, resolve, normalize, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { randomUUID, createHmac } from 'node:crypto';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = join(__filename, '..');
+
+// Statik dosyalarin TEK kaynagi. Vercel de bu klasoru output directory olarak
+// servis ediyor — yerel sunucu ile prodüksiyonun ayni dosyalari calistirmasi icin
+// buradan servis edilmeli. Kok dizine ikinci bir kopya BIRAKMAYIN.
+const PUBLIC_DIR = normalize(join(__dirname, 'public'));
 
 // ─── .env Loader ─────────────────────────────────────────────────────────────
 function loadEnv(filePath) {
@@ -1468,8 +1473,8 @@ function serveStatic(req, res) {
   if (urlPath === '/' || urlPath === '') urlPath = '/index.html';
 
   // Security: prevent directory traversal
-  const filePath = normalize(join(__dirname, urlPath));
-  if (!filePath.startsWith(normalize(__dirname))) {
+  const filePath = normalize(join(PUBLIC_DIR, urlPath));
+  if (filePath !== PUBLIC_DIR && !filePath.startsWith(PUBLIC_DIR + sep)) {
     res.writeHead(403, { 'Content-Type': 'text/plain' });
     res.end('403 Forbidden');
     return;
@@ -1480,7 +1485,7 @@ function serveStatic(req, res) {
     // SPA fallback: serve index.html for HTML-accepting requests
     const acceptsHtml = (req.headers.accept || '').includes('text/html');
     if (acceptsHtml) {
-      const indexPath = join(__dirname, 'index.html');
+      const indexPath = join(PUBLIC_DIR, 'index.html');
       if (existsSync(indexPath)) {
         res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
         createReadStream(indexPath).pipe(res);

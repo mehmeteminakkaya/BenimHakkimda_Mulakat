@@ -602,21 +602,15 @@ async function submitAnswer() {
     const question = iv.questions[iv.currentIndex];
     const questionText = getQuestionText(question);
 
-    let result;
-    if (getQuestionKind(question) === 'multiple_choice') {
-      result = evaluateMultipleChoice(question, answer);
-    } else if (getQuestionKind(question) === 'likert') {
-      result = evaluateLikert(question, answer);
-    } else {
-      result = await apiCall('/api/evaluate-answer', {
-        role:     AppState.setup.role,
-        type:     MODE_CONFIG[AppState.setup.mode].type,
-        level:    AppState.setup.level,
-        language: AppState.setup.language,
-        question: questionText,
-        answer,
-      }, 26000);
-    }
+    const result = await apiCall('/api/evaluate-answer', {
+      role:     AppState.setup.role,
+      type:     MODE_CONFIG[AppState.setup.mode].type,
+      level:    AppState.setup.level,
+      language: AppState.setup.language,
+      question: questionText,
+      questionObj: question,
+      answer,
+    }, 26000);
 
     iv.results[iv.currentIndex] = { question: questionText, answer, ...result };
 
@@ -825,9 +819,7 @@ async function getHint() {
     setEl('hintText', el => el.textContent = data.hint || '');
     const tagsEl = $('hintKeyPoints');
     if (tagsEl && data.keyPoints) {
-      tagsEl.innerHTML = data.keyPoints
-        .map(p => `<span class="tag">${p}</span>`)
-        .join('');
+      renderTagList(tagsEl, data.keyPoints, 'span', 'tag');
     }
 
     showElement('hintPanel');
@@ -869,9 +861,7 @@ async function improveAnswer() {
     setEl('improvedAnswerText', el => el.textContent = data.improvedAnswer || '');
     const tipsEl = $('improvedAnswerTips');
     if (tipsEl && data.tips) {
-      tipsEl.innerHTML = data.tips
-        .map(t => `<span class="tag">${t}</span>`)
-        .join('');
+      renderTagList(tipsEl, data.tips, 'span', 'tag');
     }
 
     const starSection = $('starFormatSection');
@@ -1037,17 +1027,13 @@ function renderFinalReport(data) {
   // Strengths
   const strengthsEl = $('reportStrengthsList');
   if (strengthsEl) {
-    strengthsEl.innerHTML = (data.strengths || [])
-      .map(s => `<li>${s}</li>`)
-      .join('') || '<li>Yeterli veri bulunamadı.</li>';
+    renderTagList(strengthsEl, data.strengths, 'li', '', 'Yeterli veri bulunamadı.');
   }
 
   // Weaknesses
   const weaknessesEl = $('reportWeaknessesList');
   if (weaknessesEl) {
-    weaknessesEl.innerHTML = (data.weaknesses || [])
-      .map(w => `<li>${w}</li>`)
-      .join('') || '<li>Belirgin bir gelişim alanı tespit edilmedi.</li>';
+    renderTagList(weaknessesEl, data.weaknesses, 'li', '', 'Belirgin bir gelişim alanı tespit edilmedi.');
   }
 
   // Radar chart
@@ -1181,6 +1167,23 @@ function escHtml(str) {
     .replace(/>/g,  '&gt;')
     .replace(/"/g,  '&quot;')
     .replace(/'/g,  '&#39;');
+}
+
+function renderTagList(el, items, tag = 'span', cls = 'tag', emptyMsg = '') {
+  if (!el) return;
+  const arr = Array.isArray(items) ? items : [];
+  if (arr.length === 0) {
+    if (emptyMsg) {
+      el.innerHTML = `<${tag}${cls ? ` class="${cls}"` : ''}>${escHtml(emptyMsg)}</${tag}>`;
+    } else {
+      el.innerHTML = '';
+    }
+    return;
+  }
+  el.innerHTML = arr
+    .filter(Boolean)
+    .map(i => `<${tag}${cls ? ` class="${cls}"` : ''}>${escHtml(String(i))}</${tag}>`)
+    .join('');
 }
 
 // ─── Event Wiring ─────────────────────────────────────────────

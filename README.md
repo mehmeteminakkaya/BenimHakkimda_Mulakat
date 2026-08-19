@@ -3,8 +3,8 @@
 # 🎙️ BenimHakkımda — İnteraktif & Sesli AI Mülakat Koçu
 
 [![Live Demo](https://img.shields.io/badge/Canl%C4%B1%20Demo-benimhakkimda--aim--lakat.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://benimhakkimda-aim-lakat.vercel.app/)
-[![Node.js](https://img.shields.io/badge/Backend-Node.js%20%7C%20Express-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
-[![AI Engine](https://img.shields.io/badge/AI-Google%20Gemini%20Flash-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev)
+[![Node.js](https://img.shields.io/badge/Backend-Node.js%20%7C%20S%C4%B1f%C4%B1r%20Ba%C4%9F%C4%B1ml%C4%B1l%C4%B1k-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
+[![AI Engine](https://img.shields.io/badge/AI-NVIDIA%20NIM%20%7C%20LLaMA%203.1%208B-76B900?style=for-the-badge&logo=nvidia&logoColor=white)](https://build.nvidia.com)
 [![Audio](https://img.shields.io/badge/Audio-Web%20Speech%20%7C%20Web%20Audio%20API-FF6F00?style=for-the-badge)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
 [![License](https://img.shields.io/badge/License-MIT-success?style=for-the-badge)](LICENSE)
 
@@ -36,9 +36,9 @@
 ```mermaid
 graph LR
     Aday([Aday / Kullanıcı]) <-->|Mikrofon & Hoparlör| UI[Web Arayüzü / Web Audio]
-    UI <-->|JSON + HMAC Token| Express[Node.js / Express Backend]
-    Express <-->|Prompt & Analiz| Gemini[Google Gemini 1.5 Flash API]
-    Express --> Security[Rate Limiter & HMAC Token Signer]
+    UI <-->|JSON + HMAC Token| Server[Node.js http — sıfır bağımlılık / server.js]
+    Server <-->|Prompt & Analiz| NIM[NVIDIA NIM API — LLaMA 3.1 8B Instruct]
+    Server --> Security[Rate Limiter & HMAC Token Signer]
     UI --> Vercel[Vercel Serverless Function / api/[...path].js]
 ```
 
@@ -60,7 +60,7 @@ graph LR
 
 ### Ön Koşullar
 * Node.js 18+
-* [Google AI Studio Gemini API Key](https://aistudio.google.com/)
+* [NVIDIA NIM API Key](https://build.nvidia.com/) (`nvapi-...`)
 
 ### Adımlar:
 ```bash
@@ -68,20 +68,26 @@ graph LR
 git clone https://github.com/mehmeteminakkaya/Benimhakkimda.aim-lakat.git
 cd Benimhakkimda.aim-lakat
 
-# 2. Bağımlılıkları yükleyin
-npm install
-
-# 3. Ortam değişkenlerini ayarlayın
+# 2. Ortam değişkenlerini ayarlayın
 cp .env.example .env
-# .env dosyasına GEMINI_API_KEY bilginizi ekleyin
+# .env dosyasına NVIDIA_API_KEY bilginizi ekleyin
 
-# 4. Sunucuyu başlatın
+# 3. Sunucuyu başlatın
 npm start
-# veya geliştirme modu için:
-npm run dev
 ```
 
-Tarayıcınızda `http://localhost:3000` adresini açarak mülakata başlayabilirsiniz.
+> **Not:** Proje **hiçbir npm bağımlılığı kullanmaz** — `server.js` yalnızca Node'un yerleşik
+> `node:http`, `node:fs`, `node:crypto` modülleriyle yazılmıştır. `npm install` adımına gerek yoktur
+> ve `package.json` içinde `start` dışında script bulunmaz.
+
+Tarayıcınızda `http://localhost:5178` adresini açarak mülakata başlayabilirsiniz
+(port `.env` içindeki `PORT` ile değiştirilebilir).
+
+### Statik dosyalar
+
+Arayüz dosyaları (`index.html`, `script.js`, `styles.css`) **yalnızca `public/` klasöründe** bulunur.
+Vercel bu klasörü output directory olarak servis eder, yerel sunucu da aynı klasörden okur — böylece
+geliştirme ve prodüksiyon her zaman aynı kodu çalıştırır. Kök dizine ikinci bir kopya çıkarmayın.
 
 ---
 
