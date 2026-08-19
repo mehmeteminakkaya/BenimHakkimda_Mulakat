@@ -1,4 +1,9 @@
 .env
+.env*
+*.env
 node_modules/
 server.log
 server.err
+
+.vercel
+.env*
