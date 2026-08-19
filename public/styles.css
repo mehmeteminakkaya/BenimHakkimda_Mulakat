@@ -100,10 +100,11 @@ ul { list-style: none; }
 /* ── 3. APP SHELL ──────────────────────────────────────────── */
 .app-shell {
   width: 100%;
-  max-width: 1080px;
+  max-width: 1400px;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
 }
 
 /* ── 4. HEADER ─────────────────────────────────────────────── */
@@ -1880,7 +1881,9 @@ body {
 }
 
 .app-shell {
-  max-width: 1180px;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .app-header {
@@ -1895,22 +1898,27 @@ body {
 }
 
 .widget-step {
-  padding: 34px 28px;
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh - 65px);
 }
 
 .setup-container {
-  max-width: 920px;
+  max-width: 1340px;
+  width: 100%;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(260px, 0.72fr) minmax(460px, 1fr);
-  gap: 34px;
-  align-items: start;
+  grid-template-columns: minmax(320px, 0.75fr) minmax(560px, 1.25fr);
+  gap: 48px;
+  align-items: center;
 }
 
 .setup-intro {
-  position: sticky;
-  top: 92px;
+  position: static;
   margin-bottom: 0;
-  padding-top: 8px;
+  padding: 0;
 }
 
 .section-label {
@@ -1919,27 +1927,33 @@ body {
 }
 
 .page-title {
-  font-size: clamp(2rem, 4vw, 3.15rem);
-  letter-spacing: 0;
-  max-width: 420px;
+  font-size: clamp(2.2rem, 3.5vw, 3.4rem);
+  letter-spacing: -0.02em;
+  max-width: 480px;
+  line-height: 1.15;
 }
 
 .page-subtitle {
-  font-size: 0.98rem;
-  max-width: 390px;
+  font-size: 1.05rem;
+  max-width: 440px;
+  line-height: 1.6;
+  margin-top: 14px;
 }
 
 .setup-form {
-  gap: 18px;
-  padding: 24px;
-  background: rgba(21,29,41,0.74);
+  gap: 16px;
+  padding: 24px 28px;
+  background: rgba(21,29,41,0.78);
   border: 1px solid var(--border-medium);
   border-radius: var(--r-xl);
   box-shadow: 0 24px 68px rgba(0,0,0,0.34);
+  backdrop-filter: blur(12px);
 }
 
 .field-label {
   color: #b6c0ce;
+  font-size: 0.8rem;
+  margin-bottom: 6px;
 }
 
 .field-input,
@@ -1950,10 +1964,26 @@ body {
   border-color: rgba(226,232,240,0.1);
 }
 
+.field-input {
+  padding: 9px 13px;
+  font-size: 0.9rem;
+}
+
+.field-textarea {
+  min-height: 68px;
+  padding: 9px 13px;
+  font-size: 0.88rem;
+}
+
 .field-input:focus,
 .field-textarea:focus {
   border-color: var(--accent-border);
   box-shadow: 0 0 0 3px rgba(47,143,131,0.14);
+}
+
+.seg-btn {
+  padding: 6px 10px;
+  font-size: 0.8rem;
 }
 
 .seg-btn.active,
@@ -1968,7 +1998,14 @@ body {
   box-shadow: 0 10px 28px rgba(47,143,131,0.26);
 }
 
+.btn-full {
+  padding: 11px 20px;
+  font-size: 0.92rem;
+}
+
 .mode-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 
@@ -1976,7 +2013,8 @@ body {
   background-color: rgba(17,23,32,0.72);
   border-color: rgba(226,232,240,0.09);
   border-radius: 10px;
-  padding: 16px;
+  padding: 12px 14px;
+  gap: 8px;
 }
 
 .mode-card:hover {
@@ -1991,13 +2029,28 @@ body {
   box-shadow: inset 0 0 0 1px rgba(76,184,168,0.15);
 }
 
+.mode-title {
+  font-size: 0.86rem;
+}
+
+.mode-desc {
+  font-size: 0.74rem;
+  line-height: 1.4;
+}
+
 .mode-icon-wrap {
+  width: 32px;
+  height: 32px;
   border-radius: 8px;
   background-color: rgba(255,255,255,0.04);
 }
 
 .interview-layout {
-  grid-template-columns: 250px minmax(0, 1fr);
+  grid-template-columns: 280px minmax(0, 1fr);
+  max-width: 1340px;
+  width: 100%;
+  margin: 0 auto;
+  gap: 28px;
 }
 
 .ai-presenter-card,
@@ -2027,21 +2080,43 @@ body {
 }
 
 .report-container {
-  max-width: 980px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (max-width: 1100px) {
+  .mode-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .setup-container {
+    gap: 32px;
+  }
 }
 
 @media (max-width: 900px) {
+  .widget-step {
+    padding: 20px 16px;
+    min-height: auto;
+  }
+
   .setup-container {
     display: block;
-    max-width: 720px;
+    max-width: 680px;
   }
 
   .setup-intro {
-    position: static;
+    text-align: center;
     margin-bottom: 24px;
   }
 
+  .page-title,
+  .page-subtitle {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .setup-form {
-    padding: 20px;
+    padding: 18px;
   }
 }
